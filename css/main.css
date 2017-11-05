@@ -1,0 +1,61 @@
+body {
+    /* font-family: "Noto Sans", sans-serif; */
+    font-family: sans-serif;
+
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+
+}
+
+span {
+    outline: none;
+    cursor: pointer;
+    font-size: 2rem;
+    position: absolute;
+    transition: all 1s ease;
+    user-select: none;
+    /* pointer-events: none; */
+}
+
+/* span:focus {
+    transform: scale(2.5);
+    z-index: 1;
+} */
+
+span:focus {
+    /* cursor: default; */
+    /* pointer-events: none; */
+    background: white;
+    font-size: 5rem;
+    /* position: fixed; */
+    padding: 1rem;
+    /* left: 50px!important; */
+    /* right: 50px; */
+    /* display: flex; */
+    /* top: 50px!important; */
+    /* align-self: center; */
+    /* justify-self: center; */
+    /* bottom: 50px; */
+
+    left: 0px!important;
+    right: 0px;
+    top: 0px!important;
+    z-index: 1;
+    /* border-bottom: 1px solid #000; */
+    text-align: center;
+    /* vertical-align: middle; */
+    /* display: table-cell;
+    vertical-align: middle;
+    text-align: center; */
+    /* transform: scale(2.5); */
+}
+
+span:focus:after {
+    pointer-events: all;
+    content: "U+" attr(data-code-point);
+    /* font-size: 2rem; */
+    padding: 0.25rem 0.5rem;
+    vertical-align: middle;
+    cursor: pointer;
+}
