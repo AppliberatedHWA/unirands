@@ -1,61 +1,39 @@
 body {
-    /* font-family: "Noto Sans", sans-serif; */
+    background: white;
+    color: black;
     font-family: sans-serif;
-
+    margin: 0;
     overflow: hidden;
     padding: 0;
-    margin: 0;
-
+    position: fixed; /* prevent content from overflowing in mobile browsers */
 }
 
 span {
-    outline: none;
+    -webkit-tap-highlight-color:  rgba(255, 255, 255, 0); /* disable the highlight that appears while being tapped */
     cursor: pointer;
     font-size: 2rem;
-    position: absolute;
+    outline: none;
+    position: fixed;
     transition: all 1s ease;
     user-select: none;
-    /* pointer-events: none; */
 }
 
-/* span:focus {
-    transform: scale(2.5);
-    z-index: 1;
-} */
-
 span:focus {
-    /* cursor: default; */
-    /* pointer-events: none; */
     background: white;
-    font-size: 5rem;
-    /* position: fixed; */
-    padding: 1rem;
-    /* left: 50px!important; */
-    /* right: 50px; */
-    /* display: flex; */
-    /* top: 50px!important; */
-    /* align-self: center; */
-    /* justify-self: center; */
-    /* bottom: 50px; */
-
+    font-size: 4rem;
     left: 0px!important;
+    padding: 1rem;
     right: 0px;
+    text-align: center;
     top: 0px!important;
     z-index: 1;
-    /* border-bottom: 1px solid #000; */
-    text-align: center;
-    /* vertical-align: middle; */
-    /* display: table-cell;
-    vertical-align: middle;
-    text-align: center; */
-    /* transform: scale(2.5); */
 }
 
 span:focus:after {
-    pointer-events: all;
     content: "U+" attr(data-code-point);
-    /* font-size: 2rem; */
-    padding: 0.25rem 0.5rem;
-    vertical-align: middle;
     cursor: pointer;
+    display: inline-block;
+    font-size: 2rem;
+    margin-left: 1rem;
+    vertical-align: middle;
 }
