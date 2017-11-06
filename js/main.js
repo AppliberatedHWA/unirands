@@ -1,6 +1,5 @@
 "use strict";
 
-import Utils from "/js/utils.js";
 
 
 const MAX_CODE_POINT = 0x10FFFF;
@@ -26,24 +25,30 @@ class App {
     }
 
 
-    addNewChar() {
-        let codePoint = Utils.getRandomIntInclusive(0, this.maxCodePoint);
+    addUnirand() {
+        // Select a random Unicode character
+        let codePoint = App.getRandomIntInclusive(this.maxCodePoint);
         let char = String.fromCodePoint(codePoint);
 
-        let newCharElement = document.createElement("span");
-        newCharElement.innerText = char;
-        newCharElement.dataset.codePoint = codePoint.toString(16).toUpperCase();
-        newCharElement.style.left = Utils.getRandomIntInclusive(0, window.innerWidth) + "px";
-        newCharElement.style.top = Utils.getRandomIntInclusive(0, window.innerHeight) + "px";
-        newCharElement.tabIndex = 0;
-        newCharElement.addEventListener("dblclick", App.onDblClick);
-        newCharElement.addEventListener("contextmenu", App.onContextMenu);
+        // Create the new unirand element and assign the random Unicode character
+        let unirand = document.createElement("span");
+        unirand.innerText = char;
+        unirand.dataset.codePoint = codePoint.toString(16).toUpperCase();
+        // Random position on screen
+        unirand.style.left = App.getRandomIntInclusive(window.innerWidth) + "px";
+        unirand.style.top = App.getRandomIntInclusive(window.innerHeight) + "px";
+        // Make it focusable
+        unirand.tabIndex = 0;
+        // Add event listeners
+        unirand.addEventListener("dblclick", App.onDblClick);
+        unirand.addEventListener("contextmenu", App.onContextMenu);
 
-        document.body.appendChild(newCharElement);
+        // Append the new unirand element to the DOM tree
+        this.unirands.appendChild(unirand);
     }
 
-    static update() {
-        document.title = document.body.childElementCount + " unirands";
+    update() {
+        document.title = this.unirands.childElementCount + " unirands";
     }
 
 
@@ -58,9 +63,9 @@ class App {
         } else {
             // We have parameters, so try to parse them and update current settings
             let params = query.split("-").map(Number);
-            plane = Number.isInteger(params[0]) ? Utils.clamp(params[0], 0, 16) : 16;
+            plane = Number.isInteger(params[0]) ? App.clamp(params[0], 0, 16) : 16;
             this.maxCodePoint = (plane + 1) * (0xFFFF + 1) - 1;
-            this.delay = Number.isInteger(params[1]) ? Utils.clamp(params[1], MIN_DELAY, MAX_DELAY) : DEFAULT_DELAY;
+            this.delay = Number.isInteger(params[1]) ? App.clamp(params[1], MIN_DELAY, MAX_DELAY) : DEFAULT_DELAY;
         }
 
         let maxHex = this.maxCodePoint.toString(16).toUpperCase();
@@ -70,18 +75,32 @@ class App {
 
     constructor() {
 
-        // alert("test");
         // Parse any query params and update settings
         this.parseParams();
 
+        this.unirands = document.getElementById("unirands");
         // Start generating random Unicode characters
-        setInterval(() => this.addNewChar(), this.delay);
+        setInterval(() => this.addUnirand(), this.delay);
 
         // Update the number of random Unicode characters in the document title
-        setInterval(() => App.update(), 1000);
+        setInterval(() => this.update(), 1000);
 
         // Disable the document context menu
         document.addEventListener("contextmenu", (event) => event.preventDefault());
+    }
+
+    static getRandomIntInclusive(max) {
+        return Math.floor(Math.random() * (max + 1));  
+    }
+
+    /**
+     * Returns a number whose value is limited to the given range.
+     * @see {@link https://github.com/tc39/ecmascript_simd/blob/master/src/ecmascript_simd.js#L99}
+     */
+    static clamp(a, min, max) {
+        if (a < min) return min;
+        if (a > max) return max;
+        return a;
     }
 }
 
